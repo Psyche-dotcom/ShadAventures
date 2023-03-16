@@ -2,7 +2,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import Heroimage from "../public/heroImg.png";
-import myImage from "../public/2022-1.png";
 import {
   TreeGridComponent,
   ColumnsDirective,
@@ -18,6 +17,8 @@ import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <Head>
@@ -57,8 +58,6 @@ export default function Home() {
                 width="150"
                 textAlign="Left"
                 template={(props) => {
-                  const [showModal, setShowModal] = useState(false);
-
                   const handleImageClick = () => {
                     setShowModal(true);
                   };
