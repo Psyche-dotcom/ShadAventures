@@ -11,8 +11,10 @@ import {
   Sort,
   Page,
   Filter,
+  WrapMode,
 } from "@syncfusion/ej2-react-treegrid";
 import { summaryData } from "../component/dummyData";
+import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -29,8 +31,8 @@ export default function Home() {
           <Image
             src={Heroimage}
             alt="hero image"
-            className="imghero"
-            width={300}
+            className="imghero imghero2"
+            width={400}
           />
         </div>
 
@@ -40,33 +42,65 @@ export default function Home() {
             allowPaging={true}
             allowSorting={true}
             allowFiltering={true}
+            allowTextWrap={true}
             filterSettings={{ type: "Excel" }}
             textWrapSettings={{
               wrapMode: "Content",
             }}
+            pageSettings={{ pageSize: 5 }}
           >
             <Inject services={[Page, Sort, Filter]} />
             <ColumnsDirective>
               <ColumnDirective
                 field="Card"
                 headerText="Card"
-                width="200"
+                width="150"
                 textAlign="Left"
                 template={(props) => {
+                  const [showModal, setShowModal] = useState(false);
+
+                  const handleImageClick = () => {
+                    setShowModal(true);
+                  };
+
                   return (
-                    <div>
-                      <Image
-                        src={props.CardImageUrl}
-                        width={150}
-                        height={100}
-                        alt={props.Card}
-                      />
-                    </div>
+                    <>
+                      <div onClick={handleImageClick}>
+                        <Image
+                          className="imghero2"
+                          src={props.CardImageUrl}
+                          width={150}
+                          height={150}
+                          alt={props.Card}
+                        />
+                      </div>
+                      {showModal && (
+                        <div className="modal">
+                          <div className="modal-content">
+                            <span
+                              className="close"
+                              onClick={() => setShowModal(false)}
+                              style={{ color: "white", fontSize: "40px" }}
+                            >
+                              &times;
+                            </span>
+                            <Image
+                              src={props.CardImageUrl}
+                              alt={props.Card}
+                              className="imghero2"
+                              width={400}
+                              height={600}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </>
                   );
                 }}
               />
-              <ColumnDirective field="Type" headerText="Type" width="150" />
-              <ColumnDirective field="Rarity" headerText="Rarity" width="150" />
+
+              <ColumnDirective field="Type" headerText="Type" width="100" />
+              <ColumnDirective field="Rarity" headerText="Rarity" width="100" />
               <ColumnDirective
                 field="Description"
                 headerText="Description"
